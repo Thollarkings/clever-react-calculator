@@ -12,7 +12,7 @@ const InputField: React.FC<InputFieldProps> = ({ inputRef, inputValue }) => {
       <input
         ref={inputRef}
         value={inputValue}
-        className="w-full p-3 text-xl text-right bg-white/30 backdrop-blur-md rounded-xl border border-white/30 shadow-inner font-medium focus:outline-none"
+        className="w-full p-3 text-xl text-right bg-primary/10 backdrop-blur-md rounded-xl border border-primary/20 shadow-inner font-medium focus:outline-none"
         readOnly
       />
     </div>
