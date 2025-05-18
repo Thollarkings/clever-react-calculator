@@ -22,7 +22,7 @@ const Button: React.FC<ButtonProps> = ({ onClick, text, className, variant = 'nu
   return (
     <button 
       onClick={onClick} 
-      className={cn(baseClass, 'h-14', className)}
+      className={cn(baseClass, 'h-14 font-medium', className)}
     >
       {text}
     </button>

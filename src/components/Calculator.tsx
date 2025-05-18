@@ -1,7 +1,5 @@
-
 import React, { useState, useRef } from 'react';
 import { useToast } from '@/components/ui/use-toast';
-import { Plus, Minus, X, Divide, Equal, RotateCcw, Trash2, Parentheses, CirclePlus, CircleMinus, Square } from 'lucide-react';
 import Button from './Button';
 import Display from './Display';
 import InputField from './InputField';
@@ -25,48 +23,149 @@ const Calculator: React.FC = () => {
 
   const handleOperation = (selectedOperation: string) => {
     if (inputValue) {
-      setPreviousValue(Number(inputValue));
+      try {
+        // Evaluate the current input expression first
+        const evalResult = evaluateExpression(inputValue);
+        setResult(evalResult);
+        setPreviousValue(evalResult);
+      } catch (error) {
+        toast({
+          title: 'Error',
+          description: 'Invalid expression',
+          variant: 'destructive',
+        });
+        return;
+      }
     }
     setOperation(selectedOperation);
     setInputValue((prevValue) => prevValue + ' ' + selectedOperation + ' ');
   };
 
-  const handleSubmit = () => {
-    if (previousValue === null || inputValue === '') return;
+  const evaluateExpression = (expression: string): number => {
+    // Remove any trailing operators or spaces
+    const cleanExpression = expression.trim().replace(/\s*[+\-x÷]\s*$/, '');
+    
+    if (!cleanExpression) return 0;
 
-    const currentValue = Number(inputValue.split(' ').pop());
-    if (isNaN(currentValue)) return;
+    // Split the expression by operators while preserving the operators
+    const tokens: string[] = [];
+    let currentNumber = '';
 
-    let newResult = result;
-    switch (operation) {
-      case '+':
-        newResult = previousValue + currentValue;
-        break;
-      case '-':
-        newResult = previousValue - currentValue;
-        break;
-      case 'x':
-        newResult = previousValue * currentValue;
-        break;
-      case '÷':
-        if (currentValue === 0) {
-          toast({
-            title: 'Error',
-            description: 'Cannot divide by zero',
-            variant: 'destructive',
-          });
-          return;
+    for (let i = 0; i < cleanExpression.length; i++) {
+      const char = cleanExpression[i];
+      if ('0123456789.'.includes(char)) {
+        currentNumber += char;
+      } else if ('+-x÷()'.includes(char)) {
+        if (currentNumber) {
+          tokens.push(currentNumber);
+          currentNumber = '';
         }
-        newResult = previousValue / currentValue;
-        break;
-      default:
-        break;
+        tokens.push(char);
+      } else if (char === ' ') {
+        if (currentNumber) {
+          tokens.push(currentNumber);
+          currentNumber = '';
+        }
+      }
     }
 
-    setResult(newResult);
-    setInputValue('');
-    setPreviousValue(null);
-    setOperation(null);
+    if (currentNumber) {
+      tokens.push(currentNumber);
+    }
+
+    // Convert infix notation to postfix notation (Shunting-yard algorithm)
+    const postfix = infixToPostfix(tokens);
+    
+    // Evaluate postfix expression
+    return evaluatePostfix(postfix);
+  };
+
+  const infixToPostfix = (tokens: string[]): string[] => {
+    const output: string[] = [];
+    const operators: string[] = [];
+    const precedence: Record<string, number> = { '+': 1, '-': 1, 'x': 2, '÷': 2 };
+
+    for (let i = 0; i < tokens.length; i++) {
+      const token = tokens[i];
+      
+      if (!isNaN(Number(token))) {
+        output.push(token); // If token is a number, add to output
+      } else if (token === '(') {
+        operators.push(token);
+      } else if (token === ')') {
+        while (operators.length > 0 && operators[operators.length - 1] !== '(') {
+          output.push(operators.pop()!);
+        }
+        operators.pop(); // Remove the '('
+      } else if (['+', '-', 'x', '÷'].includes(token)) {
+        while (
+          operators.length > 0 &&
+          operators[operators.length - 1] !== '(' &&
+          precedence[operators[operators.length - 1]] >= precedence[token]
+        ) {
+          output.push(operators.pop()!);
+        }
+        operators.push(token);
+      }
+    }
+
+    while (operators.length > 0) {
+      output.push(operators.pop()!);
+    }
+
+    return output;
+  };
+
+  const evaluatePostfix = (postfix: string[]): number => {
+    const stack: number[] = [];
+
+    for (let i = 0; i < postfix.length; i++) {
+      const token = postfix[i];
+      
+      if (!isNaN(Number(token))) {
+        stack.push(Number(token));
+      } else {
+        const b = stack.pop()!;
+        const a = stack.pop()!;
+        
+        switch (token) {
+          case '+': stack.push(a + b); break;
+          case '-': stack.push(a - b); break;
+          case 'x': stack.push(a * b); break;
+          case '÷': 
+            if (b === 0) {
+              toast({
+                title: 'Error',
+                description: 'Cannot divide by zero',
+                variant: 'destructive',
+              });
+              throw new Error('Division by zero');
+            }
+            stack.push(a / b);
+            break;
+        }
+      }
+    }
+
+    return stack[0] || 0;
+  };
+
+  const handleSubmit = () => {
+    if (inputValue.trim() === '') return;
+
+    try {
+      const evalResult = evaluateExpression(inputValue);
+      setResult(evalResult);
+      setInputValue('');
+      setPreviousValue(null);
+      setOperation(null);
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: 'Invalid expression',
+        variant: 'destructive',
+      });
+    }
   };
 
   const handleResetInput = () => {

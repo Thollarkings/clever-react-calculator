@@ -61,7 +61,7 @@
 }
 
 .calculator-btn-operation {
-  @apply calculator-btn bg-primary/80 text-white hover:bg-primary;
+  @apply calculator-btn bg-blue-600 text-white hover:bg-blue-700;
 }
 
 .calculator-btn-action {
@@ -69,15 +69,15 @@
 }
 
 .calculator-btn-equal {
-  @apply calculator-btn bg-green-500/80 text-white hover:bg-green-500;
+  @apply calculator-btn bg-red-600 text-white hover:bg-red-700;
 }
 
 .calculator-btn-memory {
-  @apply calculator-btn bg-blue-400/80 text-white hover:bg-blue-400;
+  @apply calculator-btn bg-cyan-600 text-white hover:bg-cyan-700;
 }
 
 .calculator-btn-function {
-  @apply calculator-btn bg-amber-500/80 text-white hover:bg-amber-500;
+  @apply calculator-btn bg-purple-600 text-white hover:bg-purple-700;
 }
 
 .fade-in {
