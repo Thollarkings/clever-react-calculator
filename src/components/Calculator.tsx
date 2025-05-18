@@ -317,6 +317,7 @@ const Calculator: React.FC = () => {
           text=")"
         />
         <Button
+        className='calculator-btn-divide'
           variant="operation"
           onClick={(e) => {
             handleOperation('÷');
