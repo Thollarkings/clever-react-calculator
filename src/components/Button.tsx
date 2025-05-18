@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { cn } from '@/lib/utils';
 
@@ -10,19 +9,23 @@ interface ButtonProps {
 }
 
 const Button: React.FC<ButtonProps> = ({ onClick, text, className, variant = 'number' }) => {
-  const baseClass = {
-    'calculator-btn-number': variant === 'number',
-    'calculator-btn-operation': variant === 'operation',
-    'calculator-btn-action': variant === 'action',
-    'calculator-btn-equal': variant === 'equal',
-    'calculator-btn-memory': variant === 'memory',
-    'calculator-btn-function': variant === 'function',
+  const variantClasses = {
+    number: 'calculator-btn-number',
+    operation: 'calculator-btn-operation',
+    action: 'calculator-btn-action',
+    equal: 'calculator-btn-equal',
+    memory: 'calculator-btn-memory',
+    function: 'calculator-btn-function',
   };
 
   return (
     <button 
       onClick={onClick} 
-      className={cn(baseClass, 'h-14 font-medium', className)}
+      className={cn(
+        'calculator-btn h-14 font-medium', // Base button styles
+        variantClasses[variant], // Variant-specific class
+        className // Additional custom classes
+      )}
     >
       {text}
     </button>
