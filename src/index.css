@@ -64,12 +64,25 @@
   @apply calculator-btn bg-blue-600 text-white hover:bg-blue-700;
 }
 
+/* Custom colors for specific operation buttons */
+.calculator-btn-multiply {
+  @apply calculator-btn bg-purple-400 text-white hover:bg-purple-500 active:bg-purple-600;
+}
+
+.calculator-btn-subtract {
+  @apply calculator-btn bg-gray-700 text-white hover:bg-gray-800 active:bg-gray-900;
+}
+
+.calculator-btn-add {
+  @apply calculator-btn bg-green-600 text-white hover:bg-green-700 active:bg-green-800;
+}
+
 .calculator-btn-action {
   @apply calculator-btn bg-secondary text-muted-foreground hover:bg-secondary/80;
 }
 
 .calculator-btn-equal {
-  @apply calculator-btn bg-red-400 text-white hover:bg-red-500 active:bg-red-600;
+  @apply calculator-btn bg-red-500 text-white hover:bg-red-600 active:bg-red-700;
 }
 
 .calculator-btn-memory {

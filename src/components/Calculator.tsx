@@ -1,4 +1,3 @@
-
 import React, { useState, useRef } from 'react';
 import { useToast } from '@/components/ui/use-toast';
 import Button from './Button';
@@ -326,7 +325,7 @@ const Calculator: React.FC = () => {
           text="÷"
         />
         <Button
-          variant="operation"
+          className="calculator-btn-multiply"
           onClick={(e) => {
             handleOperation('x');
             handleButtonClick(e);
@@ -360,7 +359,7 @@ const Calculator: React.FC = () => {
           text="9"
         />
         <Button
-          variant="operation"
+          className="calculator-btn-subtract"
           onClick={(e) => {
             handleOperation('-');
             handleButtonClick(e);
@@ -394,7 +393,7 @@ const Calculator: React.FC = () => {
           text="6"
         />
         <Button
-          variant="operation"
+          className="calculator-btn-add"
           onClick={(e) => {
             handleOperation('+');
             handleButtonClick(e);
