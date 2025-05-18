@@ -1,3 +1,4 @@
+
 import React, { useState, useRef } from 'react';
 import { useToast } from '@/components/ui/use-toast';
 import Button from './Button';
@@ -299,7 +300,7 @@ const Calculator: React.FC = () => {
           text="√"
         />
 
-        {/* Brackets */}
+        {/* Brackets and Operation */}
         <Button
           variant="function"
           onClick={(e) => {
@@ -316,8 +317,24 @@ const Calculator: React.FC = () => {
           }}
           text=")"
         />
+        <Button
+          variant="operation"
+          onClick={(e) => {
+            handleOperation('÷');
+            handleButtonClick(e);
+          }}
+          text="÷"
+        />
+        <Button
+          variant="operation"
+          onClick={(e) => {
+            handleOperation('x');
+            handleButtonClick(e);
+          }}
+          text="×"
+        />
 
-        {/* Number grid (7-9) */}
+        {/* Number grid with operations - reorganized */}
         <Button
           variant="number"
           onClick={(e) => {
@@ -345,10 +362,10 @@ const Calculator: React.FC = () => {
         <Button
           variant="operation"
           onClick={(e) => {
-            handleOperation('÷');
+            handleOperation('-');
             handleButtonClick(e);
           }}
-          text="÷"
+          text="-"
         />
 
         {/* Numbers 4-6 */}
@@ -379,10 +396,10 @@ const Calculator: React.FC = () => {
         <Button
           variant="operation"
           onClick={(e) => {
-            handleOperation('x');
+            handleOperation('+');
             handleButtonClick(e);
           }}
-          text="×"
+          text="+"
         />
 
         {/* Numbers 1-3 */}
@@ -411,12 +428,13 @@ const Calculator: React.FC = () => {
           text="3"
         />
         <Button
-          variant="operation"
+          variant="equal"
           onClick={(e) => {
-            handleOperation('-');
+            handleSubmit();
             handleButtonClick(e);
           }}
-          text="-"
+          text="="
+          className="row-span-2"
         />
 
         {/* Bottom row */}
@@ -427,6 +445,7 @@ const Calculator: React.FC = () => {
             handleButtonClick(e);
           }}
           text="0"
+          className="col-span-2"
         />
         <Button
           variant="number"
@@ -435,22 +454,6 @@ const Calculator: React.FC = () => {
             handleButtonClick(e);
           }}
           text="."
-        />
-        <Button
-          variant="equal"
-          onClick={(e) => {
-            handleSubmit();
-            handleButtonClick(e);
-          }}
-          text="="
-        />
-        <Button
-          variant="operation"
-          onClick={(e) => {
-            handleOperation('+');
-            handleButtonClick(e);
-          }}
-          text="+"
         />
       </div>
     </div>
