@@ -4,7 +4,8 @@ import path from "path";
 import { componentTagger } from "lovable-tagger";
 
 export default defineConfig(({ mode }) => ({
-  base: mode === 'production' ? './' : '/',
+  base: '/clever-react-calculator/',
+
   server: {
     host: "::",
     port: 8080,
